@@ -1,0 +1,17 @@
+{
+  "name": "aframe-intersection-events",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "A-Frame components that emits events when a cursor intersects and object.",
+  "repository": "https://github.com/barthy.koeln/aframe-intersection-events",
+  "author": "Barthy Bonhomme <post@barthy.koeln>",
+  "private": false,
+  "keywords": [
+    "aframe",
+    "intersection"
+  ],
+  "desktop": "index.js",
+  "dependencies": {
+    "aframe": "^0.9.2"
+  }
+}
