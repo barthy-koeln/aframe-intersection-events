@@ -6,6 +6,14 @@ export const IntersectionComponent = {
     cursor: {
       type: 'string',
       default: '#cursor'
+    },
+    near: {
+      type: 'number',
+      default: 0
+    },
+    far: {
+      type: 'number',
+      default: 200
     }
   },
 
@@ -17,13 +25,10 @@ export const IntersectionComponent = {
     this.loaded = false
 
     /**
-     * A raycaster instance with default values.
-     * TODO configure via schema
+     * A raycaster instance with default values
      * @type {THREE.Raycaster}
      */
     this.raycaster = new THREE.Raycaster()
-    this.raycaster.near         = 0
-    this.raycaster.far          = 200
     this.raycaster.firstHitOnly = true
 
     /**
@@ -85,16 +90,20 @@ export const IntersectionComponent = {
     this.addEventListeners()
   },
 
+  update () {
+    this.raycaster.near = this.data.near
+    this.raycaster.far  = this.data.far
+  },
+
   /**
    * Bind functions to the component instance
-   * TODO configure throttle via schema
    */
   bindFunctions () {
     this.updateIntersection = this.updateIntersection.bind(this)
     this.modelLoaded        = this.modelLoaded.bind(this)
     this.computeBoundsTree  = this.computeBoundsTree.bind(this)
 
-    this.tick = AFRAME.utils.throttleTick(this.updateIntersection, 34, this)
+    this.tick = this.updateIntersection.bind(this)
   },
 
   /**
@@ -118,10 +127,10 @@ export const IntersectionComponent = {
 
   /**
    * Compute the BVH bound tree
-   * @param child
+   * @param {Object3D} child
    */
   computeBoundsTree (child) {
-    if ('isMesh' in child && child.isMesh) {
+    if (child.isMesh) {
       child.geometry.computeBoundsTree(this.bvhOptions)
     }
   },
@@ -183,7 +192,7 @@ export const IntersectionComponent = {
   setPosition (point) {
     this.intersectionPosition.copy(point)
     this.el.object3D.localToWorld(this.intersectionPosition)
-    this.el.emit(IntersectionEvents.POSITION_CHANGE, this.intersectionPosition)
+    this.el.emit(IntersectionEvents.POSITION_CHANGE, this.intersectionPosition.clone())
   },
 
   /**

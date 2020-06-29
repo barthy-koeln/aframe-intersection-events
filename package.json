@@ -14,5 +14,8 @@
   "peerDependencies": {
     "aframe": "^1.0.0",
     "gkjohnson/three-mesh-bvh": "^0.1.5"
+  },
+  "devDependencies": {
+    "core-js": "^3"
   }
 }
